@@ -1,9 +1,9 @@
-import {PrismaClient} from "@repo/db/client";
+import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
-const db = new PrismaClient()
+
 const schema = z.object({
     phone: z.string().length(10),
     password: z.string().min(6)
