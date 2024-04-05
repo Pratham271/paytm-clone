@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const db = new PrismaClient()
 const schema = z.object({
-    number: z.string().length(10),
+    phone: z.string().length(10),
     password: z.string().min(6)
 })
 export const authOptions = {
@@ -21,6 +21,7 @@ export const authOptions = {
             // Do zod validation, OTP validation here
             const parsedCredentials = schema.safeParse(credentials)
             if(!parsedCredentials.success){
+                console.log("inside false statement")
                 return null
             }
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
