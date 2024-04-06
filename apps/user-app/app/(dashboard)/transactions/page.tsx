@@ -1,9 +1,10 @@
 import React from 'react'
+import AddMoneyCard from '../../../components/AddMoneyCard'
 
 const page = () => {
   return (
-    <div className='pt-6'>
-        Hello from transactions
+    <div className='p-6 w-full '>
+       <AddMoneyCard/>
     </div>
   )
 }
