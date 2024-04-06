@@ -5,6 +5,8 @@ import { z } from "zod";
 
 
 const schema = z.object({
+    name: z.string().min(3),
+    email: z.string().email(),
     phone: z.string().length(10),
     password: z.string().min(6)
 })
@@ -13,6 +15,8 @@ export const authOptions = {
       CredentialsProvider({
           name: 'Credentials',
           credentials: {
+            name: {label: "Name", type:"text",placeholder:"John Doe"},
+            email: {label: "Email", type: "email", placeholder: "johndoe@gmail.com"},
             phone: { label: "Phone number", type: "text", placeholder: "1231231231" },
             password: { label: "Password", type: "password" }
           },
@@ -25,9 +29,11 @@ export const authOptions = {
                 return null
             }
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
-            const existingUser = await db.user.findFirst({
+            const existingUser = await db.user.findUnique({
                 where: {
-                    number: credentials.phone
+                    number: credentials.phone,
+                    name: credentials.name,
+                    email: credentials.email
                 }
             });
 
@@ -46,6 +52,8 @@ export const authOptions = {
             try {
                 const user = await db.user.create({
                     data: {
+                        name: credentials.name,
+                        email: credentials.email,
                         number: credentials.phone,
                         password: hashedPassword
                     }
