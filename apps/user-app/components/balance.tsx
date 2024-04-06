@@ -7,7 +7,7 @@ const Balance = () => {
   const balance = useBalance();
   return (
     <div>
-      hi there {balance}
+        hi there {balance}
     </div>
   )
 }
