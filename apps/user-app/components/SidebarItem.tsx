@@ -12,7 +12,7 @@ const SidebarItem = ({href, title, icon}: SidebarProps) => {
     const pathname = usePathname();
     const selected = pathname === href
   return (
-    <div className={`flex ${selected? "text-zinc-700":"text-gray-500"} cursor-pointer p-2 pl-8 hover:text-sky-600`} onClick={()=> {
+    <div className={`flex ${selected? "text-zinc-700":"text-gray-500"} cursor-pointer p-2 pl-8 hover:text-[#6a51a6]`} onClick={()=> {
         router.push(href)
     }}>
         <div className='pr-2'>
