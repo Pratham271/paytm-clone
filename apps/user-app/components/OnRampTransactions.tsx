@@ -1,15 +1,16 @@
 import { Card } from '@repo/ui/card'
 import React from 'react'
 
-enum Status {
+export enum OnRampStatus {
     Success,
     Failure,
     Processing
-}
+  }
+
 type transactions = {
     time: Date,
     amount: number,
-    status: Status,
+    status: OnRampStatus,
     provider: string
 }[]
 const OnRampTransactions = ({transactions}:{transactions:transactions}) => {
