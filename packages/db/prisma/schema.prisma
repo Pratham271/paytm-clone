@@ -15,14 +15,15 @@ datasource db {
 
 
 model User {
-  id                Int      @id @default(autoincrement())
-  email             String   @unique
-  name              String   @unique
-  number            String   @unique
+  id                Int                 @id @default(autoincrement())
+  email             String              @unique
+  name              String              @unique
+  number            String              @unique
   password          String
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]
-
+  sentTransfers     p2pTransfer[]       @relation(name: "FromUserRelation")
+  recievedTransfers p2pTransfer[]       @relation(name: "ToUserRelation")
 }
 
 model Merchant {
@@ -32,6 +33,15 @@ model Merchant {
   auth_type   AuthType   
 }
 
+model p2pTransfer{
+  id          Int       @id @default(autoincrement())
+  amount      Int
+  timeStamp   DateTime
+  fromUserId  Int
+  fromUser    User      @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
+  toUserId    Int
+  toUser      User      @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
+}
 model Balance{
   id        Int   @id @default(autoincrement())
   userId    Int   @unique
