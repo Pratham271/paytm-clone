@@ -27,7 +27,7 @@ const OnRampTransactions = ({transactions}:{transactions:transactions}) => {
             {transactions.map((t,index) => <div key={index} className="flex justify-start p-2">
                 <div>
                     <div className="text-sm">
-                        Recived INR
+                        {t.status.toString() === 'Success' ? "Recieved" : t.status} INR
                     </div>
                     <div className="text-gray-600 text-xs">
                         {t.time.toDateString()}

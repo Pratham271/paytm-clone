@@ -21,6 +21,18 @@ export async function createOnRampTransaction(amount:number,provider:string){
             status: "Processing"
         }
     }) 
+    const transit  = await fetch("http://localhost:3002/hdfcWebhook", {
+        method: "POST",
+        body: JSON.stringify({
+            token: token,
+            user_identifier: Number(session.user.id),
+            amount: amount
+        }),
+        headers: {
+            "content-type": "Application/json"
+        }
+    });
+    console.log(transit)
     return {
         message : "Done"
     }
