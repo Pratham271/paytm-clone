@@ -3,27 +3,32 @@ import { Button } from '@repo/ui/button'
 import { Card } from '@repo/ui/card'
 import { TextInput } from '@repo/ui/text-input'
 import React, { useState } from 'react'
+import { p2pTransfer } from '../app/lib/actions/p2pTransfer'
+import { useRouter } from 'next/navigation'
 
 const SendCard = () => {
     const [number,setNumber] = useState("")
-    const [amount,setAmount] = useState<Number>(0)
+    const [amount,setAmount] = useState("")
+    const router = useRouter()
   return (
-    <Card title='Send'>
-      <div>
+   <div className='h-[50vh] p-3'>
+     <Card title='Send'>
+      <div className='min-w-72 pt-2'>
         <TextInput label='Number' onChange={(e)=> setNumber(e.target.value)} placeholder=''/>
-      </div>
-      <div>
-        <TextInput label='Amount' onChange={(e)=> setAmount(Number(e.target.value)*100)} placeholder=''/>
+        <TextInput label='Amount' onChange={(e)=> setAmount(e.target.value)} placeholder=''/>
       </div>
       <div className='mt-3 text-center'>
-        <Button onClick={()=> {
-            console.log(number)
-            console.log(amount)
+        <Button onClick={async()=> {
+          await p2pTransfer(number,Number(amount)*100)
+          setAmount("")
+          setNumber("")
+          router.push("/transfer")
         }}>
             Send
         </Button>
       </div>
     </Card >
+   </div>
   )
 }
 

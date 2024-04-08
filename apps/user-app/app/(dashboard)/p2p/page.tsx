@@ -3,7 +3,7 @@ import SendCard from '../../../components/SendCard'
 
 const page = () => {
   return (
-    <div className='flex flex-col justify-center w-96 mx-auto'>
+    <div className='w-96 flex flex-col justify-center mx-auto'>
         <SendCard/>
     </div>
   )
