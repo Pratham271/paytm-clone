@@ -13,6 +13,16 @@ app.post("/hdfcWebhook", async(req,res)=> {
 
     try {
         // transaction in db 
+        const transaction = await db.onRampTransaction.findUnique({
+            where: {
+                token: paymentInformation.token,
+            }
+        })
+        if(transaction?.status!=='Processing'){
+            return res.status(411).json({
+                message: "not allowed"
+            })
+        }
         await db.$transaction([
             db.balance.update({
                 where:{
@@ -45,6 +55,6 @@ app.post("/hdfcWebhook", async(req,res)=> {
     }
 })
 
-app.listen(3002, ()=> {
-    console.log("app listening on port 3002")
+app.listen(8080, ()=> {
+    console.log("app listening on port 8080")
 })

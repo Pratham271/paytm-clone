@@ -10,7 +10,7 @@ export async function createOnRampTransaction(amount:number,provider:string){
             message: "unauthenticated user"
         }
     }
-    const token = (Math.random() * 1000).toString();
+    const token = (Math.random() * 1000).toString(36).slice(3);
     await db.onRampTransaction.create({
         data: {
             amount: amount,
