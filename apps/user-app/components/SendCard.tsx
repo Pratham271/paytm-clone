@@ -10,6 +10,18 @@ const SendCard = () => {
     const [number,setNumber] = useState("")
     const [amount,setAmount] = useState("")
     const router = useRouter()
+
+    async function handleSubmit(){
+        const response = await p2pTransfer(number,Number(amount)*100)
+        if(response?.message){
+          alert(response.message)
+        }
+        else{
+          setAmount("")
+          setNumber("")
+          router.push("/transfer")
+        }
+    }
   return (
    <div className='h-[50vh] p-3'>
      <Card title='Send'>
@@ -18,12 +30,7 @@ const SendCard = () => {
         <TextInput label='Amount' onChange={(e)=> setAmount(e.target.value)} placeholder=''/>
       </div>
       <div className='mt-3 text-center'>
-        <Button onClick={async()=> {
-          await p2pTransfer(number,Number(amount)*100)
-          setAmount("")
-          setNumber("")
-          router.push("/transfer")
-        }}>
+        <Button onClick={handleSubmit}>
             Send
         </Button>
       </div>
