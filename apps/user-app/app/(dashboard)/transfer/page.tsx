@@ -1,3 +1,4 @@
+"use server"
 import React from 'react'
 import AddMoneyCard from '../../../components/AddMoneyCard'
 import BalanceCard from '../../../components/BalanceCard'

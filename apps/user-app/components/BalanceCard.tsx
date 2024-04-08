@@ -16,7 +16,7 @@ const BalanceCard = ({amount, locked}: {amount: number, locked:number}) => {
                 Total Locked Balance
             </div>
             <div>
-               {amount/100} INR
+               {locked/100} INR
             </div>
         </div><div className="flex justify-between border-b border-slate-300 p-2">
             <div>
