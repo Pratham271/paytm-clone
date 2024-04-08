@@ -8,8 +8,9 @@ const schema = z.object({
     name: z.string().min(3),
     email: z.string().email(),
     phone: z.string().length(10),
-    password: z.string().min(6)
+    password: z.string().min(5)
 })
+
 export const authOptions = {
     providers: [
       CredentialsProvider({
@@ -25,7 +26,6 @@ export const authOptions = {
             // Do zod validation, OTP validation here
             const parsedCredentials = schema.safeParse(credentials)
             if(!parsedCredentials.success){
-                console.log("inside false statement")
                 return null
             }
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -36,10 +36,12 @@ export const authOptions = {
                     email: credentials.email
                 }
             });
-
+            console.log("existing user", existingUser)
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
+                // const passwordValidation = credentials.password === existingUser.password
                 if (passwordValidation) {
+                    console.log("inside password validation")
                     return {
                         id: existingUser.id.toString(),
                         name: existingUser.name,
