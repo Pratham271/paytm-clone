@@ -24,16 +24,16 @@ const OnRampTransactions = ({transactions}:{transactions:transactions}) => {
   return (
     <Card title="Recent Transactions">
         <div className="pt-2">
-            {transactions.map((t,index) => <div key={index} className="flex justify-start p-2">
+            {transactions.map((t,index) => <div key={index} className="flex justify-between p-2">
                 <div>
-                    <div className="text-sm">
+                    <div className={`text-sm `}>
                         {t.status.toString() === 'Success' ? "Recieved" : t.status} INR
                     </div>
                     <div className="text-gray-600 text-xs">
                         {t.time.toDateString()}
                     </div>
                 </div>
-                <div className="flex flex-col justify-center">
+                <div className={`flex flex-col justify-center ${t.status.toString()=='Success'?"text-green-500": t.status.toString()=='Processing'?"text-yellow-500":"text-red-500"}`}>
                     + Rs {t.amount / 100}
                 </div>
             </div>)}
