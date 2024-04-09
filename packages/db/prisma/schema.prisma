@@ -24,6 +24,7 @@ model User {
   Balance           Balance[]
   sentTransfers     p2pTransfer[]       @relation(name: "FromUserRelation")
   recievedTransfers p2pTransfer[]       @relation(name: "ToUserRelation")
+  BalanceHistory    BalanceHistory[]
 }
 
 model Merchant {
@@ -60,6 +61,15 @@ model OnRampTransaction{
   startTime DateTime
   userId    Int
   user      User         @relation(fields: [userId], references: [id])
+
+}
+
+model BalanceHistory{
+  id            Int       @id @default(autoincrement())
+  amount        Int
+  timeStamp     DateTime 
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
 
 }
 
