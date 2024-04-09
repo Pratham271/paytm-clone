@@ -70,4 +70,33 @@ export async function p2pTransfer(to:string, amount: number){
             }
         })
     })
+
+    await prisma.$transaction(async (tx)=> {
+        const fromBalance = await tx.balance.findUnique({
+            where: {
+                userId: Number(from)
+            }
+        })
+        const toBalance = await tx.balance.findUnique({
+            where: {
+                userId: toUser.id
+            }
+        })
+
+        await tx.balanceHistory.create({
+            data: {
+                userId: Number(from),
+                amount: Number(fromBalance?.amount),
+                timeStamp: new Date()
+            }
+        })
+
+        await tx.balanceHistory.create({
+            data: {
+                userId: toUser.id,
+                amount: Number(toBalance?.amount),
+                timeStamp: new Date()
+            }
+        })
+    })
 }

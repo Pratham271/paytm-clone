@@ -36,12 +36,10 @@ export const authOptions = {
                     email: credentials.email
                 }
             });
-            console.log("existing user", existingUser)
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
                 // const passwordValidation = credentials.password === existingUser.password
                 if (passwordValidation) {
-                    console.log("inside password validation")
                     return {
                         id: existingUser.id.toString(),
                         name: existingUser.name,

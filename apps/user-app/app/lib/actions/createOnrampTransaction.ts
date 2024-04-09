@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import db from '@repo/db/client'
+import { devNull } from "os";
 
 export async function createOnRampTransaction(amount:number,provider:string){
     const session = await getServerSession(authOptions)
@@ -32,7 +33,22 @@ export async function createOnRampTransaction(amount:number,provider:string){
             "content-type": "Application/json"
         }
     });
-    console.log(transit)
+    const res = await transit.json()
+    if(res.message === "Captured"){
+        const balance = await db.balance.findUnique({
+            where: {
+                userId: Number(session?.user?.id)
+            }
+        })
+        
+        await db.balanceHistory.create({
+            data: {
+                userId: Number(session?.user?.id),
+                timeStamp: new Date(),
+                amount: Number(balance?.amount)
+            }
+        })
+    }
     return {
         message : "Done"
     }
