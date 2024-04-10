@@ -8,7 +8,7 @@ export const TextInput = ({ placeholder, onChange, label }: { placeholder: strin
       <label htmlFor={label} className="block mb-2 text-sm font-medium text-gray-900">{label}</label>
       <input 
       onChange={onChange} 
-      type="text" 
+      type={`${label==="Password"?"password":"text"}`} 
       className="bg-slate-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"  
       placeholder={placeholder}/>
     </div>
