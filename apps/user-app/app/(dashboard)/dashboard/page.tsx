@@ -4,6 +4,7 @@ import React from 'react'
 import { authOptions } from '../../lib/auth'
 import prisma from '@repo/db/client'
 import BalanceHistoryGraph from '../../../components/BalanceHistoryGraph'
+import { redirect } from 'next/navigation'
 
 type TransactionGroup = {
   date: string;
@@ -17,6 +18,9 @@ type TransactionData = {
 
 const page = async() => {
   const session = await getServerSession(authOptions)
+  if(!session?.user){
+    redirect("/signup")
+  }
   const balanceHistory = await prisma.balanceHistory.findMany({
     where: {
       userId: Number(session?.user?.id)

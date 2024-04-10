@@ -4,9 +4,13 @@ import React from 'react'
 import { authOptions } from '../../lib/auth'
 import prisma from '@repo/db/client'
 import P2pTransactions from '../../../components/P2pTransactions'
+import { redirect } from 'next/navigation'
 
 async function getP2pTransactions(){
   const session = await getServerSession(authOptions)
+  if(!session?.user){
+    redirect("/signup")
+  }
   const txns = await prisma.p2pTransfer.findMany({
     where: {
       OR: [

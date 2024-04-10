@@ -6,6 +6,7 @@ import OnRampTransactions, { OnRampStatus } from '../../../components/OnRampTran
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../lib/auth'
 import prisma from '@repo/db/client'
+import { redirect } from 'next/navigation'
 
 enum Status {
   Success,
@@ -40,6 +41,10 @@ async function getOnRampTransactions(){
   }))
 }
 const page = async() => {
+  const session = await getServerSession(authOptions)
+  if(!session?.user){
+    redirect("/signup")
+  }
   const balance = await getBalance()
   const transactions = await getOnRampTransactions()
   return (

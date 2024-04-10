@@ -5,9 +5,7 @@ import { z } from "zod";
 
 
 const schema = z.object({
-    name: z.string().min(3),
-    email: z.string().email(),
-    phone: z.string().length(10),
+    phone: z.string().length(10).regex(new RegExp(/^[7-9]\d{9}$/)),
     password: z.string().min(5)
 })
 
@@ -16,8 +14,6 @@ export const authOptions = {
       CredentialsProvider({
           name: 'Credentials',
           credentials: {
-            name: {label: "Name", type:"text",placeholder:"John Doe"},
-            email: {label: "Email", type: "email", placeholder: "johndoe@gmail.com"},
             phone: { label: "Phone number", type: "text", placeholder: "1231231231" },
             password: { label: "Password", type: "password" }
           },
@@ -28,17 +24,14 @@ export const authOptions = {
             if(!parsedCredentials.success){
                 return null
             }
-            const hashedPassword = await bcrypt.hash(credentials.password, 10);
+            // const hashedPassword = await bcrypt.hash(credentials.password, 10);
             const existingUser = await db.user.findUnique({
                 where: {
                     number: credentials.phone,
-                    name: credentials.name,
-                    email: credentials.email
                 }
             });
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
-                // const passwordValidation = credentials.password === existingUser.password
                 if (passwordValidation) {
                     return {
                         id: existingUser.id.toString(),
@@ -48,26 +41,6 @@ export const authOptions = {
                 }
                 return null;
             }
-
-            try {
-                const user = await db.user.create({
-                    data: {
-                        name: credentials.name,
-                        email: credentials.email,
-                        number: credentials.phone,
-                        password: hashedPassword
-                    }
-                });
-            
-                return {
-                    id: user.id.toString(),
-                    name: user.name,
-                    email: user.number
-                }
-            } catch(e) {
-                console.error(e);
-            }
-
             return null
           },
         })
