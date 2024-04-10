@@ -13,7 +13,7 @@ const SignupForm = () => {
     const router = useRouter()
   return (
     <div className='flex flex-col justify-center h-screen '>
-        <h1 className='text-center pb-10 text-3xl font-bold text-[#6a51a6]'>Sign Up Now </h1>
+        <h1 className='text-center pb-10 text-3xl font-bold text-[#6a51a6]'>Get Started</h1>
         <div className='flex justify-center'>
             
             <div className='bg-white p-3 rounded-md shadow-md w-96 mb-20'>
